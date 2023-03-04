@@ -1,0 +1,56 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+}
+body {
+    display: grid;
+    place-items: center;
+    height: 100vh;
+}
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+a{
+    text-decoration: none;
+}
+h2 {
+    margin-bottom: 20px;
+    color: dodgerblue;
+}
+.form {
+    display: grid;
+    width: 40%;
+}
+label {
+    display: grid;
+    padding: 10px 0;
+}
+input {
+    margin: 8px 0;
+    padding: 10px;
+}
+button {
+    padding: 10px;
+    background: dodgerblue;
+    cursor: pointer;
+    color: #fff;
+    border: 0;
+    outline: 0;
+    font-weight: bold;
+    transition: 0.5s ease-in;
+    border-radius: 8px;
+}
+button:hover {
+    background: rgb(12, 122, 231);
+}
+.btns {
+    display: flex;
+    justify-content: space-between;
+}
+.warn {
+    color: red;
+    margin-top: 15px;
+}

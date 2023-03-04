@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registration</title>
+    <link rel="stylesheet" href="./style.css">
+  </head>
+  <body>
+    <div class="form">
+      <h2>Registration Form</h2>
+      <label for="email">
+        <b>Email</b>
+        <input
+          type="text"
+          id="email"
+          placeholder="Enter your email"
+          onkeyup="validEmail(this.value, 'warnEmail')"
+        />
+        <small class="warn" id="warnEmail"></small>
+      </label>
+      <label for="user">
+        <b>Username</b>
+        <input
+          type="text"
+          id="user"
+          placeholder="Enter your username"
+          onkeyup="validUsername(this.value, 5, 20, 'warnUser')"
+        />
+        <small class="warn" id="warnUser"></small>
+      </label>
+      <label for="pass">
+        <b>Password</b>
+        <input
+          type="password"
+          id="pass"
+          placeholder="Enter your password"
+          onkeyup="validPassword(this.value, 6, 20, 'warnPass')"
+        />
+        <small class="warn" id="warnPass"></small>
+      </label>
+      <button id="btnRegister">Register</button>
+    </div>
+
+    <script
+      src="https://code.jquery.com/jquery-3.6.3.min.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <script>
+      // get all inputs in variable
+      var txtEmail = $("#email");
+      var txtUser = $("#user");
+      var txtPass = $("#pass");
+
+      // get all warning tags in variable
+      var warnEmail = $("#warnEmail");
+      var warnUser = $("#warnUser");
+      var warnPass = $("#warnPass");
+
+      // set valid flags
+      var validatedEmail = false,
+        validatedUser = false,
+        validatedPass = false;
+
+      // function to check null values
+      const checkNull = () => {
+        if (txtEmail.val() == "") {
+          warnEmail.html("Please enter your email address");
+          validatedEmail = false;
+        } 
+        if (txtUser.val() == "") {
+          warnUser.html("Please enter your username");
+          validatedUser = false;
+        } 
+        if (txtPass.val() == "") {
+          warnPass.html("Please enter your password");
+          validatedPass = false;
+        } 
+      };
+
+      // function to check length of field
+      const checkLength = (text, minLength, maxLength, warnMsg) => {
+        if (text.length < minLength) {
+          $("#" + warnMsg).html(
+            "Field should contain minimum " + minLength + " chracters"
+          );
+          return false
+        } else {
+          $("#" + warnMsg).html("");
+        } 
+         if (text.length > maxLength) {
+          $("#" + warnMsg).html(
+            "Field should contain upto " + maxLength + " chracters"
+          );
+          return false
+        } else {
+          $("#" + warnMsg).html("");
+        }
+      };
+
+      // function to validate special characters
+      const checkSpecialChars = (text, warnMsg) => {
+        const specialChars = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+        if (specialChars.test(text)) {
+          $("#" + warnMsg).html("Specials are not allowed here");
+          return false
+        } else {
+          $("#" + warnMsg).html("");
+        }
+      };
+
+      const validUsername = (text, minLength, maxLength, warnMsg) => {
+        const specialChars = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+        if (specialChars.test(text)) {
+          $("#" + warnMsg).html("Specials are not allowed here");
+          validatedUser = false;
+          return false
+        } else {
+          validatedUser = true;
+        }
+        
+        if (text.length < minLength) {
+          $("#" + warnMsg).html("Field should contain minimum " + minLength + " chracters");
+          validatedUser = false;
+          return false
+        } 
+        else {
+          $("#" + warnMsg).html("");
+          validatedUser = true;
+        }
+        
+        if (text.length > maxLength) {
+          $("#" + warnMsg).html("Field should contain upto " + maxLength + " chracters");
+          validatedUser = false;
+          return false
+        } else {
+          $("#" + warnMsg).html("");
+          validatedUser = true;
+        }
+
+        if(validatedUser){
+          $("#" + warnMsg).html("");
+        }
+      };
+
+      const validEmail = (text, warnMsg) => {
+        var domain = "northeastern.edu";
+        
+        if (text.indexOf("@") === -1) {
+          $("#" + warnMsg).html("Email address should contain @ symbol");
+          validatedEmail = false;
+          return false
+        } else {
+          validatedEmail = true;
+        }
+
+        if (!text.includes(domain)) {
+          $("#" + warnMsg).html(
+            "Email address should contain domain 'northeastern.edu'"
+          );
+          validatedEmail = false;
+          return false
+        }else {
+          validatedEmail = true;
+        }
+
+        if(validatedEmail){
+          $("#" + warnMsg).html("");
+        }
+      };
+
+      const validPassword = (text, minLength, maxLength, warnMsg) => {
+        var validPass = false;
+        if (text.search(/[a-z]/i) < 0) {
+          $("#" + warnMsg).html("Password must contain at least 1 letter");
+          validatedPass = false;
+          return false
+        } else {
+          $("#" + warnMsg).html("");
+          validatedPass = true;
+        }
+        
+         if (text.length < minLength) {
+          $("#" + warnMsg).html(
+            "Field should contain minimum " + minLength + " chracters"
+          );
+          validatedPass = false;
+          return false
+        } else {
+          $("#" + warnMsg).html("");
+          validatedPass = true;
+        }
+        
+         if (text.length > maxLength) {
+          $("#" + warnMsg).html(
+            "Field should contain upto " + maxLength + " chracters"
+          );
+          validatedPass = false;
+          return false
+        } else {
+          $("#" + warnMsg).html("");
+          validatedPass = true;
+        }
+        
+        if (text.search(/[0-9]/) < 0) {
+          $("#" + warnMsg).html("Password must contain at least 1 number");
+          validatedPass = false;
+          return false
+        } else {
+          $("#" + warnMsg).html("");
+          validatedPass = true;
+        }
+        
+        if (text.search(/[!@#$%^&*]/) < 0) {
+          $("#" + warnMsg).html("Password must contain at least 1 symbol");
+          validatedPass = false;
+          return false
+        } else {
+          $("#" + warnMsg).html("");
+          validatedPass = true;
+        }
+      };
+
+      $(document).ready(function () {
+        $("#btnRegister").click(function () {
+          checkNull();
+
+          if (validatedEmail && validatedUser && validatedPass) {
+            // set username in localstorage
+            localStorage.setItem("logUser", txtUser.val());
+            // Open second page
+            window.location = "./Calculator.html";
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

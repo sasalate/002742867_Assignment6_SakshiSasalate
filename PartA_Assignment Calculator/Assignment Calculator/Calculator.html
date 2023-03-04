@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculator</title>
+    <link rel="stylesheet" href="./style.css">
+  </head>
+  <body>
+    <div class="form">
+      <header>
+        <h2>Welcome <span id="dispUser"></span></h2>
+        <a href="./Registration.html">Logout</a>
+      </header>
+      <label for="email">
+        <b>Number 1</b>
+        <input
+          type="text"
+          id="no1"
+          placeholder="Enter number 1"
+          onkeyup="validDigits(this.value, no2.value)"
+        />
+      </label>
+      <label for="user">
+        <b>Number 2</b>
+        <input
+          type="text"
+          id="no2"
+          placeholder="Enter number 2"
+          onkeyup="validDigits(no1.value, this.value)"
+        />
+      </label>
+      <label for="user">
+        <b>Result</b>
+        <input
+          type="text"
+          id="result"
+          placeholder="Press any button to calculate"
+          disabled
+        />
+      </label>
+      <div class="btns">
+        <button onclick="add(no1.value, no2.value)">Add</button>
+        <button onclick="sub(no1.value, no2.value)">Substract</button>
+        <button onclick="mul(no1.value, no2.value)">Multiply</button>
+        <button onclick="div(no1.value, no2.value)">Divide</button>
+      </div>
+      <small id="msg" class="warn"></small>
+    </div>
+
+    <script
+      src="https://code.jquery.com/jquery-3.6.3.min.js"
+      integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU="
+      crossorigin="anonymous"
+    ></script>
+
+    <script>
+      // get elements in variable
+      var msg = $("#msg");
+      var result = $("#result");
+      var doOperation = false;
+
+      // when document is ready
+      $(document).ready(function () {
+        // when page loaded show logged user value
+        document.getElementById("dispUser").innerHTML = localStorage
+          .getItem("logUser")
+          .toString();
+      });
+
+      // function to allow only numbers in fields
+      const validDigits = (num1, num2) => {
+        // use regular expression
+        if ((/^[0-9]+$/.test(num1)) && /^[0-9]+$/.test(num2)) {
+          // if valid set warning to blank
+          msg.html("");
+          doOperation = true;
+        } else {
+          // if invalid set warning
+          msg.html("Only digits are allowed in the field");
+          doOperation = false;
+        }
+        if(num1 == "" || num2 == ""){
+          msg.html("Both fields should be filled");
+          doOperation = false;
+        }
+      };
+
+      // function to check wheather both fields are filled.
+      const checkFilled = (no1, no2) => {
+        if(no1 == "" || no2 == ""){
+          msg.html("Both fields should be filled");
+          doOperation = false;
+        }
+        return doOperation;
+      }
+
+      const add = (no1, no2) => {
+        if (checkFilled(no1, no2)) {
+          result.val(parseInt(no1) + parseInt(no2));
+        }
+      };
+
+      const sub = (no1, no2) => {
+        if (checkFilled(no1, no2)) {
+          result.val(parseInt(no1) - parseInt(no2));
+        }
+      };
+
+      const mul = (no1, no2) => {
+        if (checkFilled(no1, no2)) {
+          result.val(parseInt(no1) * parseInt(no2));
+        }
+      };
+
+      const div = (no1, no2) => {
+        if (checkFilled(no1, no2)) {
+          result.val(parseInt(no1) / parseInt(no2));
+        }
+      };
+    </script>
+  </body>
+</html>

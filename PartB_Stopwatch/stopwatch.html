@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.js"
+      integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+      crossorigin="anonymous"
+    ></script>
+    <title>Stop watch</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="timer">
+        <span class="hour">00</span>
+        <span class="colon">:</span>
+        <span class="minute">00</span>
+        <span class="colon">:</span>
+        <span class="seconds">00</span>
+      </div>
+      <br />
+      <div class="buttons">
+        <button class="start">START</button>
+        <button class="stop">STOP</button>
+        <button class="reset">RESET</button>
+      </div>
+    </div>
+    <script>
+      const startnow = document.querySelector(".start");
+const stopnow = document.querySelector(".stop");
+const reset = document.querySelector(".reset");
+console.log(document.querySelector(".start"));
+ 
+let hours = "0" + 0;
+let mins = "0" + 0;
+let secs = "0" + 0;
+
+
+startnow.addEventListener("click", startwatch);
+stopnow.addEventListener("click",stopwatch);
+reset.addEventListener("click",resetwatch);
+
+function startwatch(){
+    startnow.classList.add("started");
+    stopnow.classList.remove("stopped");
+    if(reset.classList.contains("stopped")){
+        reset.classList.remove("stopped");
+    }
+
+    startTimer = setInterval(() => {
+        secs++;
+
+        secs = secs < 10 ? "0" + secs : secs;
+
+
+        if(secs == 60){
+            mins++;
+            mins = mins < 10 ? "0" + mins : mins;
+            secs = "0" + 0;
+        }
+        if(mins == 60){
+            hours++;
+            hours = hours < 10 ? "0 "+ hours : hours;
+            mins = "0" + 0;
+        }
+
+        populateValue();
+    },1000);
+}
+
+function stopwatch(){
+    startnow.classList.remove("started");
+    stopnow.classList.add("stopped");
+    if(reset.classList.contains("stopped")){
+        reset.classList.remove("stopped");
+    }
+    clearInterval(startTimer);
+}
+
+function resetwatch(){
+    startnow.classList.remove("started");
+    stopnow.classList.remove("stopped");
+    reset.classList.add("stopped");
+    clearInterval(startTimer);
+    hours = mins = secs = "0" + 0;
+    populateValue();
+}
+
+function populateValue(){
+    document.querySelector(".seconds").innerHTML = secs;
+    document.querySelector(".minute").innerHTML = mins;
+    document.querySelector(".hour").innerHTML = hours;
+}
+
+
+
+    </script>
+  </body>
+</html>
